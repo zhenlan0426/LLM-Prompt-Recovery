@@ -23,8 +23,8 @@ def create_batch_txt(original_texts, rewritten_texts, prompts, tokenizer):
 
 def gen_batch(token_ids, rewritten_text_len, batch_size, tokenizer):
     n = len(token_ids)
-    for i in range(min(n//batch_size+1,n)):
-        tokenList,rewt_lenList = token_ids[i*batch_size:i*batch_size+batch_size],rewritten_text_len[i*batch_size:i*batch_size+batch_size]
+    for i in range(0,n,batch_size):
+        tokenList,rewt_lenList = token_ids[i:i+batch_size],rewritten_text_len[i:i+batch_size]
         inputs = torch.nn.utils.rnn.pad_sequence(tokenList, batch_first=True, padding_value=tokenizer.pad_token_id).to('cuda')
         yield inputs,rewt_lenList
 
